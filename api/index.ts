@@ -74,7 +74,8 @@ app.post('/api/guestbook', async (req, res) => {
 
   try {
     await db.execute({
-      sql: 'INSERT INTO guestbook (name, message, mood, rating) VALUES (?, ?, ?, ?)',
+      // 한글 주석: created_at을 한국 표준시(KST, UTC+9)로 직접 저장합니다.
+      sql: "INSERT INTO guestbook (name, message, mood, rating, created_at) VALUES (?, ?, ?, ?, datetime('now', '+9 hours'))",
       args: [name.trim(), message.trim(), cleanMood, cleanRating]
     });
     res.status(201).json({ success: true, message: '방명록이 등록되었습니다.' });

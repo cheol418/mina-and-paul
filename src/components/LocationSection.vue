@@ -16,8 +16,9 @@
             <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div class="info-details">
               <h4>주소</h4>
-              <p>서울특별시 마포구 동교로 266-9, 1층</p>
-              <span class="addr-desc">(홍대입구역 3번 출구 연트럴파크 도보 8분)</span>
+              <p>서울특별시 용산구 대사관로11길 41</p>
+              <span class="addr-desc">페즈(FEZH) 지하 2층 D-SQUARE 광장</span>
+              <span class="addr-desc">한남동 · 이태원역과 한강진역 사이</span>
             </div>
           </div>
 
@@ -25,16 +26,18 @@
             <div class="info-icon"><i class="fas fa-clock"></i></div>
             <div class="info-details">
               <h4>영업 시간</h4>
-              <p>화요일 - 일요일 | 11:00 - 22:00</p>
-              <p class="closed-day">매주 월요일 정기 휴무</p>
+              <p>화요일 ~ 토요일 | 11:00 – 24:00</p>
+              <p>일요일 | 11:00 – 18:00</p>
+              <p class="closed-day">매주 월요일 정기 휴무 · 설·추석 연휴</p>
             </div>
           </div>
 
           <div class="info-group">
-            <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+            <div class="info-icon"><i class="fas fa-paw"></i></div>
             <div class="info-details">
-              <h4>전화번호</h4>
-              <p>02-332-2026</p>
+              <h4>반려동물 동반</h4>
+              <p>강아지 동반 가능 (리드줄 필수)</p>
+              <p>반려견 전용 음료 '퍼프치노(멍푸치노)' 준비</p>
             </div>
           </div>
 
@@ -42,8 +45,9 @@
             <div class="info-icon"><i class="fas fa-info-circle"></i></div>
             <div class="info-details">
               <h4>이용 팁</h4>
-              <p>• 건물 옆 유료 주차장 혹은 연남동 공영주차장 이용을 추천드립니다.</p>
-              <p>• 반려동물 동반 입장이 가능합니다. (리드줄 필수)</p>
+              <p>• 오트 밀크 / 락토 프리 우유 / 디카페인 옵션 덕구 무료</p>
+              <p>• 인근 한남동 공영주차장 이용 권장 (건물 전용 주차 협소)</p>
+              <p>• 같은 건물 내 재즈바 '블루캣(BLUE CAT)' 운영</p>
             </div>
           </div>
         </div>
@@ -89,7 +93,7 @@
           </div>
           
           <div class="map-actions">
-            <a href="https://map.naver.com" target="_blank" class="btn btn-secondary map-link-btn" id="naver-map-link">
+            <a href="https://map.naver.com/v5/search/%EB%AF%B8%EB%82%98%EC%95%A4%ED%8F%B4%20%ED%95%9C%EB%82%A8%EB%8F%99%20%ED%8E%98%EC%A6%88" target="_blank" class="btn btn-secondary map-link-btn" id="naver-map-link">
               <i class="fas fa-external-link-alt"></i> 네이버 지도에서 길찾기
             </a>
           </div>

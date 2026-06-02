@@ -53,3 +53,4 @@ lerna-debug.log*
 doc/마지막작업*
 doc/html/*
 doc/강의자료/
+.vercel

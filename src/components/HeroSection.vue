@@ -6,11 +6,11 @@
 
     <div class="container hero-container">
       <div class="hero-content animate-fade-in-up">
-        <span class="hero-tagline">COZY CAFE & ESPRESSO</span>
+        <span class="hero-tagline">FEZH HANNAM · B2 D-SQUARE</span>
         <h1 class="hero-title">MINA & PAUL</h1>
         <p class="hero-description">
-          정성스레 내린 핸드드립 커피와 매일 아침 구워내는 수제 디저트,<br />
-          그리고 아늑한 햇살이 머무는 따뜻한 소통의 공간입니다.
+          한남동 복합문화공간 페즈(FEZH) 지하의 유럽식 광장 카페.<br />
+          반려동물도 함께하는 특별한 커피 경험을 선사합니다.
         </p>
         <div class="hero-buttons">
           <a href="#menu" class="btn btn-primary" id="hero-btn-menu">메뉴 둘러보기</a>

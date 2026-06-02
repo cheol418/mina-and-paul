@@ -3,16 +3,16 @@ import dotenv from 'dotenv';
 // 한글 주석: 로컬 환경에서 .env 파일의 환경 변수를 로드합니다.
 dotenv.config();
 
-const url = process.env.TURSO_DATABASE_URL || 'file:local.db';
+let url = process.env.TURSO_DATABASE_URL || 'file:local.db';
 const authToken = process.env.TURSO_AUTH_TOKEN || '';
 
 // 한글 주석: 내부 실제 libsql 클라이언트 인스턴스 홀더
 let clientInstance: any = null;
 
 // 한글 주석: Proxy를 이용한 지연 로딩(Lazy Loading) 패턴 구현.
-// 데이터베이스 커넥션이 실행되는 시점에 실제 클라이언트 객체의 프로퍼티와 메소드를 대리 호출합니다.
+// 사용하지 않는 target 매개변수에 언더바(_) 접두사를 붙여 TS unused error를 방지합니다.
 export const db = new Proxy({} as any, {
-  get(target, prop, receiver) {
+  get(_target, prop, receiver) {
     if (!clientInstance) {
       throw new Error('데이터베이스 클라이언트가 아직 초기화되지 않았습니다. initDatabase()를 먼저 호출하세요.');
     }
@@ -24,22 +24,31 @@ export const db = new Proxy({} as any, {
   }
 });
 
-// 한글 주석: 애플리케이션 초기 기동 시 락(Lock) 상태에서 단 한 번 호출되어 드라이버를 로드하고 테이블을 준비하는 초기화 함수
+// 한글 주석: 데이터베이스 초기화 함수
 export async function initDatabase() {
   if (!clientInstance) {
     console.log(`[DB 연결 시도] 대상 URL: ${url}`);
     
-    // 한글 주석: URL 프로토콜 스키마에 맞춰 최적의 라이브러리를 동적 임포트(Dynamic Import)합니다.
-    if (url.startsWith('file:')) {
-      // 로컬 파일 경로인 경우 네이티브 모듈 바인딩 기능이 있는 기본 @libsql/client 로드
-      const { createClient } = await import('@libsql/client');
-      clientInstance = createClient({ url });
-      console.log('[DB 로드 완료] 로컬 SQLite 클라이언트를 마운트했습니다.');
-    } else {
-      // 원격 Turso 클라우드 경로인 경우 C++ 바인딩 없이 HTTP REST 통신을 수행하는 경량 @libsql/client/web 로드
+    // 한글 주석: Vercel 서버리스 클라우드 환경 여부 확인
+    const isVercel = !!process.env.VERCEL;
+
+    if (isVercel) {
+      // 한글 주석: Vercel 환경에서는 네이티브 모듈 500 바인딩 에러를 막기 위해 @libsql/client/web 드라이버 강제 로드
+      console.log('[DB 로드] Vercel 환경 감지: @libsql/client/web 드라이버 사용');
+      
+      // 한글 주석: 웹 표준 드라이버 REST 연동 호환성을 위해 libsql:// 프로토콜을 https://로 변환
+      let webUrl = url;
+      if (webUrl.startsWith('libsql://')) {
+        webUrl = 'https://' + webUrl.substring(9);
+      }
+      
       const { createClient } = await import('@libsql/client/web');
+      clientInstance = createClient({ url: webUrl, authToken });
+    } else {
+      // 한글 주석: 로컬 환경에서는 file:local.db 및 libsql:// 프로토콜을 완벽하게 동시 지원하는 네이티브 @libsql/client 드라이버 사용
+      console.log('[DB 로드] 로컬 개발 환경 감지: @libsql/client 네이티브 드라이버 사용');
+      const { createClient } = await import('@libsql/client');
       clientInstance = createClient({ url, authToken });
-      console.log('[DB 로드 완료] Turso Cloud Web 클라이언트를 마운트했습니다.');
     }
   }
 

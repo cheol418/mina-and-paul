@@ -13,7 +13,8 @@ let isDbInitialized = false;
 let dbInitializationPromise: Promise<void> | null = null;
 
 // 한글 주석: 콜드 스타트 시, DB 연결 및 초기화 연산이 완료된 후 후속 요청을 처리하도록 보장하는 동기화 락 미들웨어
-export async function ensureDbInitialized(_req: any, _res: any, next: any) {
+// 에러 발생 시 프로세스가 죽지 않도록 내부 try-catch를 통해 예외를 안전하게 가둡니다.
+export async function ensureDbInitialized(_req: any, res: any, next: any) {
   if (!isDbInitialized) {
     if (!dbInitializationPromise) {
       dbInitializationPromise = initDatabase().then(() => {
@@ -25,7 +26,15 @@ export async function ensureDbInitialized(_req: any, _res: any, next: any) {
         throw err;
       });
     }
-    await dbInitializationPromise;
+    try {
+      await dbInitializationPromise;
+    } catch (err: any) {
+      res.status(500).json({
+        error: '데이터베이스 연결 및 초기화에 실패했습니다. 환경변수(.env) 설정 및 Turso 인증 토큰을 확인해 주세요.',
+        details: err.message
+      });
+      return;
+    }
   }
   next();
 }
